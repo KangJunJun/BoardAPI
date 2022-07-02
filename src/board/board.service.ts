@@ -24,7 +24,7 @@ export class BoardService {
       where: {
         id: search.id,
         writer: search.writer,
-        title: Like(`%${search.title}%`),
+        title: Like(`%${search.title ?? ''}%`),
       },
       order: {
         updateDate: 'DESC',

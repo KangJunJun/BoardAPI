@@ -1,42 +1,34 @@
 CREATE DATABASE board_db default CHARACTER SET UTF8; 
 
-USE board_db
-
-CREATE TABLE `user` (
-   `user_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-   `uuid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `name` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `email` VARCHAR(100) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `password` VARCHAR(100) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `last_login_date` DATETIME NULL DEFAULT NULL,
-   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`user_id`)
-);
+USE board_db;
 
 CREATE TABLE `board` (
-   `board_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-   `title` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `content` VARCHAR(500) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `writer` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `password` VARCHAR(100) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`board_id`)
-);
+  `title` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `content` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `writer` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `board_id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`board_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 
 CREATE TABLE `comment` (
-   `comment_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-   `board_id`  BIGINT(20) UNSIGNED NOT NULL,
-   `parent_id`  BIGINT(20) UNSIGNED NULL,
-   `depth`  BIGINT(20) NOT NULL,
-   `isDelete` BOOLEAN NOT NULL DEFAULT 0,
-   `comment` VARCHAR(500) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `writer` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `password` VARCHAR(100) NOT NULL COLLATE 'utf8mb4_unicode_520_ci',
-   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   PRIMARY KEY (`comment_id`),
-   CONSTRAINT `fk_board_id` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`) ON UPDATE CASCADE,
-   CONSTRAINT `fk_comment_id` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`comment_id`) ON UPDATE CASCADE
-);
+  `comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `writer` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `board_id` int NOT NULL,
+  `isDelete` tinyint NOT NULL DEFAULT '0',
+  `parent_id` int DEFAULT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `FK_77a3101cc141a4046264ce59d6d` (`board_id`),
+  CONSTRAINT `FK_77a3101cc141a4046264ce59d6d` FOREIGN KEY (`board_id`) REFERENCES `board` (`board_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `notice` (
+  `notice_id` int NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(40) NOT NULL,
+  `user` varchar(20) NOT NULL,
+  PRIMARY KEY (`notice_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
